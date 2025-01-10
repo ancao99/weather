@@ -21,6 +21,7 @@ public class GatewayApplication {
     @Bean
     @LoadBalanced
     public WebClient.Builder getWebClientBuilder() {
+
         return WebClient.builder();
     }
 
