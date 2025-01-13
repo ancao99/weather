@@ -16,10 +16,10 @@ public class SearchService {
     @Autowired
     private RestTemplate restTemplate;
 
-    // Asynchronous call to book service with Hystrix fallback
-    @HystrixCommand(fallbackMethod = "fallbackBookService")
-    public CompletableFuture<Map<String, Object>> callBookServiceAsync() {
-        return CompletableFuture.supplyAsync(() -> restTemplate.getForObject("http://book-service/api/books", Map.class));
+    // Asynchronous call to universities service with Hystrix fallback
+    @HystrixCommand(fallbackMethod = "fallbackUniversitiesService")
+    public CompletableFuture<Map<String, Object>> callUniversitiesServiceAsync() {
+        return CompletableFuture.supplyAsync(() -> restTemplate.getForObject("http://universities-service/api/universities", Map.class));
     }
 
     // Asynchronous call to details service with Hystrix fallback
@@ -31,14 +31,14 @@ public class SearchService {
     public Map<String, Object> getSearchResults() {
         try {
             // Perform asynchronous calls
-            CompletableFuture<Map<String, Object>> bookFuture = callBookServiceAsync();
+            CompletableFuture<Map<String, Object>> universitiesFuture = callUniversitiesServiceAsync();
             CompletableFuture<Map<String, Object>> detailsFuture = callDetailsServiceAsync();
 
             // Wait for both responses
-            CompletableFuture.allOf(bookFuture, detailsFuture).join();
+            CompletableFuture.allOf(universitiesFuture, detailsFuture).join();
 
             // Collect results
-            Map<String, Object> books = bookFuture.get();
+            Map<String, Object> universities = universitiesFuture.get();
             Map<String, Object> details = detailsFuture.get();
 
             // Create the response
@@ -48,7 +48,7 @@ public class SearchService {
 
             // Dynamically create a data map
             Map<String, Object> data = new HashMap<>();
-            data.put("books", books);
+            data.put("universities", universities);
             data.put("details", details);
 
             response.put("data", data);
@@ -61,10 +61,10 @@ public class SearchService {
         }
     }
 
-    // Fallback method for the book service
-    public Map<String, Object> fallbackBookService() {
+    // Fallback method for the universities service
+    public Map<String, Object> fallbackUniversitiesService() {
         Map<String, Object> fallbackResponse = new HashMap<>();
-        fallbackResponse.put("error", "Book service is unavailable");
+        fallbackResponse.put("error", "Universities service is unavailable");
         return fallbackResponse;
     }
 

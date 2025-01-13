@@ -15,6 +15,7 @@
         <module>gateway</module>
         <module>search</module>
         <module>config</module>
+        <module>SpringOne</module>
     </modules>
 
     <groupId>com.example</groupId>
@@ -94,6 +95,11 @@
     </dependencyManagement>
 
     <repositories>
+        <repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
         <repository>
             <id>spring-milestones</id>
             <name>Spring Milestones</name>
