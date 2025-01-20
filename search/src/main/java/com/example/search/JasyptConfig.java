@@ -1,4 +1,4 @@
 package com.example.search;
 
-public class GeneralResponse {
+public class JasyptConfig {
 }
